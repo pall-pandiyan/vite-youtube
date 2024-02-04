@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../config/api";
 
-const App = () => {
+
+const Root = () => {
     const [jsonData, setJsonData] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("https://randomuser.me/api/");
+                const response = await api.get("/");
                 setJsonData(response.data);
-                setLoading(false)
+                setLoading(false);
             }
             catch (error) {
-                console.error("Error loading data from randomuser.me!")
+                console.error("Error loading data from randomuser.me!");
                 // console.error(error);
             }
         };
@@ -26,4 +27,4 @@ const App = () => {
     return <h1>{JSON.stringify(jsonData)}</h1>
 }
 
-export default App
+export default Root
