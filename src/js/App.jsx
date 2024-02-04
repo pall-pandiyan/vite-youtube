@@ -1,33 +1,29 @@
 import { useState, useEffect } from "react";
-import colors from '../json/colors.json';
+import axios from "axios";
 
-function App() {
+const App = () => {
+    const [jsonData, setJsonData] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-  // const [colors, setColors] = useState(null)
-  // useEffect(() => {
-  //   const fetchColors = async() => {
-  //     try {
-  //       const respose = await fetch("/home/rx7/projects/training/react/vite/vite-youtube/src/json/colors.json");
-  //       const data = respose.json();
-  //       setColors(data);
-  //     }
-  //     catch (error) {
-  //       console.error("Error reading JSON file");
-  //     }
-  //   };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get("https://randomuser.me/api/");
+                setJsonData(response.data);
+                setLoading(false)
+            }
+            catch (error) {
+                console.error("Error loading data from randomuser.me!")
+                // console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
 
-  //   console.log(colors);
-  //   fetchColors();
-  // }, []);
-
-
-  return (
-    <div className={colors.home_page.background}>
-      <h1>hello</h1>
-    </div>
-
-  )
+    if (loading) {
+        return <h1>Loading...</h1>
+    }
+    return <h1>{JSON.stringify(jsonData)}</h1>
 }
-
 
 export default App
